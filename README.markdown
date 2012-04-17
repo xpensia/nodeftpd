@@ -54,6 +54,11 @@ Also, don't run node as root just so you can get access to the FTP port. We run 
 
 > iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 21 -j REDIRECT --to-port 10000
 
+17 April 2012
+----
+
+Added LICENSE.txt with MIT license. Original code base had none, my changes are a pretty big deviation, and people have been asking.
+
 04 September 2011
 ----
 
