@@ -109,8 +109,12 @@ function createServer(host, sandbox) {
                     logIf(3, "A data connection exists", socket);
                     if (callback) callback(socket.dataSocket); // do!
                 } else {
-                    logIf(3, "Passive, but no data socket exists ... weird", socket);
-                    socket.write("425 Can't open data connection\r\n");
+                    logIf(3, "Passive, but no data socket exists ... waiting", socket);
+                    socket.dataListener.on('data-ready', function(dataSocket) {
+                        logIf(3, "Looks like waiting paid off. Here we go!");
+                        callback(dataSocket);
+                    });
+                    //socket.write("425 Can't open data connection\r\n");
                 }
             } else {
                 // Do we need to open the data connection?
@@ -475,9 +479,13 @@ function createServer(host, sandbox) {
                         logIf(1, "Passive data event: connect", socket);
                         // Once we have a completed data connection, make note of it
                         socket.dataSocket = psocket;
+
                         // 150 should be sent before we send data on the data connection
                         //socket.write("150 Connection Accepted\r\n");
                         if (socket.readable) socket.resume();
+
+                        // Emit this so the pending callback gets picked up in whenDataWritable()
+                        socket.dataListener.emit("data-ready", psocket);
                     });
                     psocket.on("end", function () {
                         logIf(3, "Passive data event: end", socket);
