@@ -17,13 +17,6 @@ TODO:
 */
 
 
-function fixPath(fs, path) {
-    if (path.charAt(0) == '/')
-        return path.trim();
-    else
-        return fs.cwd() + path.trim();
-}
-
 // host should be an IP address, and sandbox a path without trailing slash for now
 function createServer(host, sandbox) {
     // make sure host is an IP address, otherwise DATA connections will likely break
@@ -517,6 +510,9 @@ function createServer(host, sandbox) {
                             logIf(0, 'Error opening/creating file: ' + filename, socket);
                             socket.write("553 Could not create file\r\n");
                             dataSocket.end();
+                        });
+                        destination.on("close", function() {
+                            // Finished
                         });
                     
                         logIf(3, "File opened/created: " + filename, socket);
