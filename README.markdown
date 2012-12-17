@@ -37,6 +37,7 @@ These are known to work (or mostly work)
 * MKD - make directory
 * RMD - remove directory (and contents)
 * STOR - upload
+* RETR - download
 
 If a command is not listed, I probably haven't tested it yet.
 

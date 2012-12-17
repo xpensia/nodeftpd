@@ -46,8 +46,8 @@ function createServer(host, sandbox) {
     server.on("connection", function(socket) {
         server.emit("client:connected", socket); // pass socket so they can listen for client-specific events
 
-        socket.setTimeout(0);
-        socket.setEncoding("ascii"); // force data String not Buffer
+        socket.setTimeout(0); // We want to handle timeouts ourselves
+        socket.setEncoding("ascii"); // force data String not Buffer, so can parse FTP commands as a string
         socket.setNoDelay();
         
         socket.passive = false;
@@ -158,8 +158,7 @@ function createServer(host, sandbox) {
                 command = data.trim().toUpperCase();
                 commandArg = '';
             }
-            // Separate authenticated versus not
-            // If not 
+            // Separate authenticated versus not?
 
             switch(command) {
                 case "CDUP":
@@ -498,7 +497,7 @@ function createServer(host, sandbox) {
                     if (!authenticated()) break;
                     var filename = PathModule.resolve(socket.fs.cwd(), commandArg);
                     fs.stat( PathModule.join(socket.sandbox, filename), function (err, s) {
-                        if(err) { 
+                        if(err) {
                             logIf(0, "Error getting size of file: "+filename, socket);
                             socket.write("450 Failed to get size of file\r\n");
                             return;
