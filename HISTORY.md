@@ -1,8 +1,11 @@
-nodeftpd - a simple FTP server written in Node.JS
-====
+# History
 
-Welcome
-----
+## 4 April 2013
+
+Forked from https://github.com/alanszlosek/nodeftpd
+Plan to use the code logic and rewrite it to be a base framework like Haraka is for SMTP
+
+### Original note from Alan W Szlosek Jr
 
 This is turning out to be quite a deviation from the original code. Figured that if there's a need for an ftp server written in node.js, one probably needs to tack on custom functionality, otherwise they'd just use vsftpd. So my goal is to lay the groundwork for a basic FTP server, with all the right hooks in place for customizing operations.
 
@@ -16,52 +19,13 @@ For my specific needs (at work) we needed custom user authentication, to sandbox
 
 Thanks, Alan
 
-Status
-----
 
-To Do
 
-* Fire more events to allow customizations: directory changes, file uploads, etc
-
-Known issues
-
-* None at the moment
-
-These are known to work (or mostly work)
-
-* Passive data connection establishment
-* Non-passive data connection establishment
-* CWD - change working directory
-* DELE - delete file
-* LIST - had to construct the list format programmatically because output from `ls -l` wasn't being processed by FireFTP
-* MKD - make directory
-* RMD - remove directory (and contents)
-* STOR - upload
-* RETR - download
-
-If a command is not listed, I probably haven't tested it yet.
-
-How to use
-----
-
-See test.js for an example.
-
-Then implement the following event callbacks with logic you need performed:
-
-* command:user - Same as command:pass above, but first parameter will be the username that was sent from the client.
-* command:pass - Sends three params. The first is the password. The second is a callback to be called if you determine the password is correct ... pass the username as the first parameter to this callback. Call the second if incorrect.
-
-Also, don't run node as root just so you can get access to the FTP port. We run our node FTP server as an unprivileged user and perform port-forwarding with iptables. The following should work for you as well:
-
-> iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 21 -j REDIRECT --to-port 10000
-
-17 April 2012
-----
+## 17 April 2012
 
 Added LICENSE.txt with MIT license. Original code base had none, my changes are a pretty big deviation, and people have been asking.
 
-04 September 2011
-----
+## 04 September 2011
 
 Tested passive and non-passive data connections and found some issues, so I did some re-working.
 
@@ -70,8 +34,7 @@ Some things that might be nice:
 * Figure out how it should be run, maybe as root first but execs to another user
 * Fork new process when client connects and authenticates
 
-Old Readme Follows ...
-----
+## Old Readme Follows ...
 
 ### 28 March 2010
 
