@@ -1,6 +1,6 @@
 # base framework for building FTP server
 
-The original README of this project have been moved to HISTORY.md
+The original README of this project has been moved to HISTORY.md
 
 ## TODO
 
