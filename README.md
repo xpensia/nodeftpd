@@ -15,12 +15,8 @@ The original README of this project has been moved to HISTORY.md
 
 * Passive data connection establishment
 * Non-passive data connection establishment
-* CWD - change working directory
-* DELE - delete file
-* LIST - had to construct the list format programmatically because output from `ls -l` wasn't being processed by FireFTP
-* MKD - make directory
-* RMD - remove directory (and contents)
-* STOR - upload
+* CWD/CDUP - change working directory
+* LIST - list files
 * RETR - download
 
 If a command is not listed, I probably haven't tested it yet.
